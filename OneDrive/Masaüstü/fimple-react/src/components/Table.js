@@ -8,10 +8,10 @@ const Table = () => {
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th>Taksit Tutari</th>
+            <th>Taksit Tutarı</th>
             <th>Ana Para</th>
             <th>Kalan Ana Para</th>
-            <th>Kar Orani</th>
+            <th>Kar Oranı</th>
             <th>KKDF</th>
             <th>BSMV</th>
           </tr>

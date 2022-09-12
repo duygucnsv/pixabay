@@ -1,11 +1,14 @@
 import "./App.css";
+import Calculate from "./components/Calculate";
 import UserEntries from "./components/UserEntries";
+import { StoreProvider } from "./store";
 
 function App() {
   return (
-    <div className="App">
-      <UserEntries />
-    </div>
+    <StoreProvider>
+       <UserEntries /> 
+      {/* <Calculate/> */}
+    </StoreProvider>
   );
 }
 

@@ -1,0 +1,7 @@
+export const types = {
+  SET_ANA_PARA: "SET_ANA_PARA",
+  SET_VADE: "SET_VADE",
+  SET_KAR: "SET_KAR",
+  SET_VERGI: "SET_VERGI",
+  SET_HESAPLA: "SET_HESAPLA",
+};
