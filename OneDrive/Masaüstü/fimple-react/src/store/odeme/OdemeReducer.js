@@ -9,19 +9,23 @@ export const OdemeReducer = (state = OdemeInitialState, action) => {
   if (action.type === types.SET_AYLİK) {
     return {
       ...state,
-      odeme: (krediTutari * karOrani * taksitAraligi) / 1200 + krediTutari,
+      odeme: (krediTutari * karOrani * taksitAraligi) / 1200 + (krediTutari/ taksitAraligi),
     };
   }
   if (action.type === types.SET_HAFTALİK) {
     return {
       ...state,
-      odeme: (krediTutari * karOrani * taksitAraligi) / 4800 + krediTutari,
+      odeme:
+        (krediTutari * karOrani * taksitAraligi) / 4800 +
+        (krediTutari / taksitAraligi),
     };
   }
   if (action.type === types.SET_YİLLİK) {
     return {
       ...state,
-      odeme: (krediTutari * karOrani * taksitAraligi) / 100 + krediTutari,
+      odeme:
+        (krediTutari * karOrani * taksitAraligi) / 100 +
+        (krediTutari / taksitAraligi),
     };
   }
   if (action.type === types.SET_BSMV) {
@@ -33,7 +37,7 @@ export const OdemeReducer = (state = OdemeInitialState, action) => {
   if (action.type === types.SET_KKDF) {
     return {
       ...state,
-      odeme: (state.odeme - krediTutari) * 0.05,
+      odeme: (state.odeme - krediTutari) * 0.15,
     };
   }
 

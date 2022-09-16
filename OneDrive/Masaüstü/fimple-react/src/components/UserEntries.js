@@ -1,15 +1,36 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
 import { useStore } from "../store";
-import { setKarOrani, setKrediTutari, setTaksitAraligi, setTaksitSayisi, setVergiOrani } from "../store/user/userAction";
+import {
+  setCapital,
+  setInstallment,
+  setProfitRate,
+  setInstallmentInterval,
+  setTaxRate,
+} from "../store/userEntries/userEntriesAction";
 
 import "../style.css";
+import Input from "./Input";
+import {
+  installments,
+  taxRates,
+  installmentIntervals,
+} from "../config/constants";
+import Select from "./Select";
+import ModalPages from "./ModalPages";
 
 const UserEntries = () => {
-  const { userState, dispatchUser, odemeState, dispatchOdeme } = useStore();
-  const { krediTutari, taksitSayisi } = userState;
-  const [kredi, setKredi] = useState("");
+  const inputRef = useRef();
+
+  const { userEntriesState, dispatchUserEntries } = useStore();
+  const { capital, installment, profitRate, installmentInterval, taxRate } =
+    userEntriesState;
+  
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
   return (
     <Container
@@ -21,148 +42,127 @@ const UserEntries = () => {
       <Form>
         <Row>
           <Col md={4}>
-            <Form.Group
-              className="mb-3"
-              controlId="formBasicAnapara"
-              name="anapara"
-            >
-              <Form.Label>Kredi Tutarı</Form.Label>
-              <Form.Control
-                placeholder="TL"
-                type="text"
-                value={kredi}
-                onChange={(e) => {
-                  setKredi(e.target.value);
-                }}
-              />
-            </Form.Group>
-          </Col>
-          <Col md={2}>
-            <Form.Group
-              className="mb-3"
-              controlId="formBasicTaksit"
-              name="vade"
-              value={kredi}
+            <Input
+              ref={inputRef}
+              label={`Capital : ${capital}`}
+              placeholder="TL"
+              value={capital}
               onChange={(e) => {
-                setTaksitSayisi(e.target.value);
+                dispatchUserEntries(setCapital(e.target.value));
               }}
-            >
-              <Form.Label>Vade</Form.Label>
-              <Form.Select>
-                <option>Seçiniz</option>
-                <option>3</option>
-                <option>6</option>
-                <option>9</option>
-                <option>12</option>
-                <option>15</option>
-                <option>18</option>
-                <option>21</option>
-                <option>24</option>
-                <option>36</option>
-              </Form.Select>
-            </Form.Group>
+            />
           </Col>
-          <Col md={2}>
-            <Form.Group
-              className="mb-3"
-              controlId="formBasicTaksitAraligi"
-              value={kredi}
+          <Col md={3}>
+            <Select
+              label={`Installment : ${installment}`}
+              value={installment}
+              placeholder="Select"
+              options={installments}
               onChange={(e) => {
-                setTaksitAraligi(e.target.value);
+                dispatchUserEntries(setInstallment(e.target.value));
               }}
-            >
-              <Form.Label>Taksit</Form.Label>
-
-              <Form.Select>
-                <option>Seçiniz</option>
-                <option>Haftalık</option>
-                <option>Aylık</option>
-                <option>Yıllık</option>
-              </Form.Select>
-            </Form.Group>
+            />
+          </Col>
+          <Col md={3}>
+            <Select
+              className="mb-3"
+              label={`Installment Interval:${installmentInterval}`}
+              placeholder="Select"
+              value={installmentInterval}
+              options={installmentIntervals}
+              onChange={(e) => {
+                dispatchUserEntries(setInstallmentInterval(e.target.value));
+              }}
+            />
           </Col>
         </Row>
 
         <Row>
           <Col md={4}>
-            <Form.Group className="mb-3" controlId="formBasicKar" name="kar">
-              <Form.Label>Kâr Oranı (%)</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder=""
-                value={kredi}
-                onChange={(e) => {
-                  setKarOrani(e.target.value);
-                }}
-              />
-            </Form.Group>
-          </Col>
-
-          <Col md={4}>
-            <Form.Group
-              className="mb-3"
-              controlId="formBasicVergi"
-              name="vergi"
-              value={kredi}
+            <Input
+              label={`Profit Rate (%) : ${profitRate}`}
+              placeholder=""
+              value={profitRate}
               onChange={(e) => {
-                setVergiOrani(e.target.value);
+                dispatchUserEntries(setProfitRate(e.target.value));
               }}
-            >
-              <Form.Label>Vergi Oranı</Form.Label>
+            />
+            
+          </Col>
 
-              <Form.Select>
-                <option>Vergi oranı seçiniz</option>
-                <option>KKDF</option>
-                <option>BSMV</option>
-              </Form.Select>
-            </Form.Group>
+          <Col md={4}>
+            <Select
+              label={`Tax Rate: ${taxRate}`}
+              placeholder="Select"
+              options={taxRates}
+              value={taxRate}
+              onChange={(e) => {
+                dispatchUserEntries(setTaxRate(e.target.value));
+              }}
+            />
           </Col>
         </Row>
         <Row>
           <Col md={4}>
-            <Form.Group className="mb-3" controlId="formBasicGeriÖdeme">
-              <Form.Label>Toplam Geri Ödeme Tutarı</Form.Label>
-              <Form.Control placeholder=" TL" />
-            </Form.Group>
+            <Input
+              label="Total Refund Amount"
+              placeholder="TL"
+              value={capital}
+              onChange={(e) => {
+                dispatchUserEntries(setCapital(e.target.value));
+              }}
+            />
           </Col>
+
           <Col md={4}>
-            <Form.Group className="mb-3" controlId="formBasicAylıkTaksit">
-              <Form.Label>Aylık Taksit Tutarı</Form.Label>
-              <Form.Control placeholder=" TL" />
-            </Form.Group>
+            <Input
+              label="Monthly Installment Amount"
+              placeholder="TL"
+              value={capital}
+              onChange={(e) => {
+                dispatchUserEntries(setCapital(e.target.value));
+              }}
+            />
           </Col>
+
           <Col md={4}>
-            <Form.Group className="mb-3" controlId="formBasicAylıkToplamVergi">
-              <Form.Label>Toplam Vergi Tutarı</Form.Label>
-              <Form.Control placeholder=" TL" />
-            </Form.Group>
+            <Input
+              label="Total Tax Amount"
+              placeholder="TL"
+              value={capital}
+              onChange={(e) => {
+                dispatchUserEntries(setCapital(e.target.value));
+              }}
+            />
           </Col>
         </Row>
         <Row>
-          <Col md={4}>
-            <Button
-              className="mb-3"
-              variant="primary"
-              type="submit"
-              onClick={() => dispatchUser(setKrediTutari(kredi))}
-            >
-              Hesapla
-            </Button>
-          </Col>
           <Col md={4}>
             <Button className="mb-3" variant="primary" type="submit">
-              Ödeme Planı
+              Calculate
+            </Button>
+          </Col>
+          <Col md={4}>
+            <Button variant="primary" onClick={handleShow} data-toggle="modal">
+              Payment Plan
             </Button>
           </Col>
         </Row>
-        {console.log(krediTutari)}
-
-        {/* <Col xs={12} md={4} lg={3}>
-        <Button variant="primary" type="submit">
-          Hemen Başvur
-        </Button>
-      </Col> */}
       </Form>
+
+      <Modal className="modal" show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>PAYBACK TABLE</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <ModalPages />
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   );
 };

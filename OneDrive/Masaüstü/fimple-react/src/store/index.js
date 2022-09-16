@@ -1,7 +1,7 @@
 import React, { useReducer } from "react";
 
-import { userReducer } from "./user/userReducer";
-import { userInitialState } from "./user/userInitialState";
+import { userEntriesReducer } from "./userEntries/userEntriesReducer";
+import { userEntriesInitialState } from "./userEntries/userEntriesInitialState";
 import { OdemeReducer } from "./odeme/OdemeReducer";
 import { OdemeInitialState } from "./odeme/OdemeInitialState";
 
@@ -11,7 +11,10 @@ Store.displayName = "Store";
 export const useStore = () => React.useContext(Store);
 
 export const StoreProvider = ({ children }) => {
-  const [userState, dispatchUser] = useReducer(userReducer, userInitialState);
+  const [userEntriesState, dispatchUserEntries] = useReducer(
+    userEntriesReducer,
+    userEntriesInitialState
+  );
   const [odemeState, dispatchOdeme] = useReducer(
     OdemeReducer,
     OdemeInitialState
@@ -19,7 +22,12 @@ export const StoreProvider = ({ children }) => {
 
   return (
     <Store.Provider
-      value={{ userState, dispatchUser, odemeState, dispatchOdeme }}
+      value={{
+        userEntriesState,
+        dispatchUserEntries,
+        odemeState,
+        dispatchOdeme,
+      }}
     >
       {children}
     </Store.Provider>

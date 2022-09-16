@@ -2,17 +2,20 @@ import React from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import { Button, Card, Col, Container, Row } from "react-bootstrap/esm";
-import { useStore } from "../context";
+import { useStore } from "../store";
 import { Form } from "formik";
 
-const Calculate = ({user}) => {
+const Calculate = () => {
+ const { userState, dispatchUser, odemeState, dispatchOdeme } = useStore();
+ const { krediTutari, taksitSayisi, karOrani, taksitAraligi, vergiOrani } =
+   userState;
 
   const initialValues = {
-    krediTutari: "",
-    taksitSayisi: "",
-    karOrani: "",
-    taksitAraligi: "",
-    vergiOrani: "",
+    krediTutari: krediTutari,
+    taksitSayisi: taksitSayisi,
+    karOrani: karOrani,
+    taksitAraligi: taksitAraligi,
+    vergiOrani: vergiOrani,
   };
 
   const validationSchema = Yup.object({
@@ -59,13 +62,9 @@ const Calculate = ({user}) => {
                   <Form.Label>Kredi Tutari</Form.Label>
                   <Form.Control
                     type="text"
-                    {...formik.getFieldProps("krediTutari")}
-                    isInvalid={
-                      formik.touched.krediTutari && formik.errors.krediTutari
-                    }
-                    isValid={
-                      formik.touched.krediTutari && !formik.errors.krediTutari
-                    }
+                    placeholder="Enter first name"
+                    {...formik.getFieldProps("firstName")}
+                    isInvalid={!!formik.errors.firstName}
                   />
                   <Form.Control.Feedback type="invalid">
                     {formik.errors.krediTutari}
