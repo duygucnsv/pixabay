@@ -1,0 +1,47 @@
+.navContainer {
+  margin: 0 10%;
+  padding: 1%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__navItem1 {
+    display: flex;
+    align-items: center;
+   
+    &__logo {
+      width: 75%;
+    }
+
+    &__link1 {
+      text-decoration: none;
+      color: #b1adad;
+
+      display: flex;
+      gap: 1rem;
+
+      :hover {
+        font-weight: bold;
+        color: #004481;
+      }
+    }
+  }
+
+  &__navItem2 {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    &__link2 {
+      color: #004481;
+      text-decoration: none;
+      display: flex;
+      gap: 1rem;
+    }
+    &__icon {
+      size: 15px;
+    }
+    &__button {
+      margin-left: 1rem;
+    }
+  }
+}
